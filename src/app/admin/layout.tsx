@@ -30,6 +30,12 @@ export default function AdminLayout({
                 >
                   강좌 관리
                 </Link>
+                <Link
+                  href="/admin/enrollments"
+                  className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+                >
+                  수강 관리
+                </Link>
               </div>
             </div>
             <div className="flex items-center space-x-4">

@@ -1,10 +1,12 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
-import { getDb, courses, lessons } from "@/db";
-import { eq, asc } from "drizzle-orm";
+import { getDb, courses, lessons, users, enrollments } from "@/db";
+import { eq, asc, and } from "drizzle-orm";
 import { getEmbedUrl } from "@/lib/utils";
+import EnrollmentButton from "@/components/EnrollmentButton";
 
 export const dynamic = "force-dynamic";
 
@@ -34,17 +36,46 @@ async function getCourseWithLessons(id: string) {
   };
 }
 
+async function getUserEnrollment(courseId: string, clerkUserId: string | null) {
+  if (!clerkUserId) return null;
+
+  const { env } = await getCloudflareContext();
+  const db = getDb(env.DB);
+
+  const user = await db.query.users.findFirst({
+    where: eq(users.clerkId, clerkUserId),
+  });
+
+  if (!user) return null;
+
+  const enrollment = await db.query.enrollments.findFirst({
+    where: and(
+      eq(enrollments.userId, user.id),
+      eq(enrollments.courseId, courseId)
+    ),
+  });
+
+  return enrollment;
+}
+
 export default async function CourseDetailPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const course = await getCourseWithLessons(id);
+  const { userId } = await auth();
+
+  const [course, enrollment] = await Promise.all([
+    getCourseWithLessons(id),
+    getUserEnrollment(id, userId),
+  ]);
 
   if (!course) {
     notFound();
   }
+
+  const firstLessonId = course.lessons[0]?.id;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -160,16 +191,14 @@ export default async function CourseDetailPage({
                 </ul>
               )}
 
-              <SignedOut>
-                <div className="mt-6">
-                  <Link
-                    href="/sign-in"
-                    className="block w-full rounded-md bg-indigo-600 px-4 py-3 text-center text-sm font-medium text-white hover:bg-indigo-500"
-                  >
-                    로그인하여 수강하기
-                  </Link>
-                </div>
-              </SignedOut>
+              <div className="mt-6">
+                <EnrollmentButton
+                  courseId={course.id}
+                  enrollment={enrollment ? { id: enrollment.id, status: enrollment.status } : null}
+                  isSignedIn={!!userId}
+                  firstLessonId={firstLessonId}
+                />
+              </div>
             </div>
           </div>
         </div>
