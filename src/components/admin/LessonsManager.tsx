@@ -185,7 +185,7 @@ export default function LessonsManager({
                       onChange={(e) =>
                         setFormData({ ...formData, title: e.target.value })
                       }
-                      className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                      className="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900"
                       placeholder="레슨 제목"
                     />
                     <textarea
@@ -194,7 +194,7 @@ export default function LessonsManager({
                       onChange={(e) =>
                         setFormData({ ...formData, content: e.target.value })
                       }
-                      className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                      className="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900"
                       placeholder="레슨 내용 (마크다운 지원)"
                     />
                     <input
@@ -203,7 +203,7 @@ export default function LessonsManager({
                       onChange={(e) =>
                         setFormData({ ...formData, videoUrl: e.target.value })
                       }
-                      className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                      className="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900"
                       placeholder="동영상 URL (YouTube/Vimeo)"
                     />
                     <div className="flex justify-end space-x-2">
@@ -274,7 +274,7 @@ export default function LessonsManager({
                 onChange={(e) =>
                   setFormData({ ...formData, title: e.target.value })
                 }
-                className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                className="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900"
                 placeholder="레슨 제목"
               />
               <textarea
@@ -283,7 +283,7 @@ export default function LessonsManager({
                 onChange={(e) =>
                   setFormData({ ...formData, content: e.target.value })
                 }
-                className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                className="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900"
                 placeholder="레슨 내용 (마크다운 지원)"
               />
               <input
@@ -292,7 +292,7 @@ export default function LessonsManager({
                 onChange={(e) =>
                   setFormData({ ...formData, videoUrl: e.target.value })
                 }
-                className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                className="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900"
                 placeholder="동영상 URL (YouTube/Vimeo)"
               />
               <div className="flex justify-end space-x-2">

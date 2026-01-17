@@ -7,11 +7,14 @@ import { generateId } from "@/lib/utils";
 import { eq } from "drizzle-orm";
 
 export async function POST(req: Request) {
-  const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
+  const { env } = await getCloudflareContext();
+  const WEBHOOK_SECRET = env.CLERK_WEBHOOK_SECRET;
 
   if (!WEBHOOK_SECRET) {
-    throw new Error("Please add CLERK_WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local");
+    throw new Error("Please add CLERK_WEBHOOK_SECRET from Clerk Dashboard to Cloudflare environment variables");
   }
+
+  const db = getDb(env.DB);
 
   // Get the headers
   const headerPayload = await headers();
@@ -48,10 +51,6 @@ export async function POST(req: Request) {
       status: 400,
     });
   }
-
-  // Get the Cloudflare context and database
-  const { env } = await getCloudflareContext();
-  const db = getDb(env.DB);
 
   const eventType = evt.type;
 
