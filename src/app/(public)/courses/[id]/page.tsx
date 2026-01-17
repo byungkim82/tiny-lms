@@ -6,7 +6,8 @@ import { getDb, courses, lessons } from "@/db";
 import { eq, asc } from "drizzle-orm";
 import { getEmbedUrl } from "@/lib/utils";
 
-export const runtime = "edge";
+export const dynamic = "force-dynamic";
+
 
 async function getCourseWithLessons(id: string) {
   const { env } = await getCloudflareContext();

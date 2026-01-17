@@ -4,7 +4,8 @@ import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb, courses } from "@/db";
 import { eq, desc } from "drizzle-orm";
 
-export const runtime = "edge";
+export const dynamic = "force-dynamic";
+
 
 async function getPublishedCourses() {
   const { env } = await getCloudflareContext();

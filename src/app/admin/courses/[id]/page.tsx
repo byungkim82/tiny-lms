@@ -5,7 +5,8 @@ import { getDb, courses, lessons } from "@/db";
 import { eq, asc, count } from "drizzle-orm";
 import CourseForm from "@/components/admin/CourseForm";
 
-export const runtime = "edge";
+export const dynamic = "force-dynamic";
+
 
 async function getCourse(id: string) {
   const { env } = await getCloudflareContext();

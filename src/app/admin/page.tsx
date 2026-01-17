@@ -3,7 +3,8 @@ import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb, courses, users, enrollments } from "@/db";
 import { count, eq } from "drizzle-orm";
 
-export const runtime = "edge";
+export const dynamic = "force-dynamic";
+
 
 async function getStats() {
   const { env } = await getCloudflareContext();
